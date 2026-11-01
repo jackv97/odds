@@ -40,16 +40,15 @@ function update() {
     chanceOutput.value = "Too many games";
     return;
   }
-  if (needed <= 0) {
-    chanceOutput.value = "100%";
-    return;
-  }
   updateChart(wins, remaining);
   if (needed > remaining) {
     chanceOutput.value = "0%";
     return;
   }
-
+  if (needed <= 0) {
+    chanceOutput.value = "100%";
+    return;
+  }
   let chance = 0;
   for (let k = needed; k <= remaining; k++) {
     chance += choose(remaining, k) * Math.pow(WIN_PROB, k) * Math.pow(1 - WIN_PROB, remaining - k);
