@@ -6,6 +6,22 @@ const winsInput = document.getElementById("wins");
 const lossesInput = document.getElementById("losses");
 const chanceOutput = document.getElementById("chance");
 
+const chart = new Chart(document.getElementById("chart"), {
+  type: "bar",
+  data: { labels: [], datasets: [{ label: "Chance of finishing with N wins (%)", data: [] }] }
+});
+
+function updateChart(wins, remaining) {
+  const labels = [], data = [];
+  for (let k = 0; k <= remaining; k++) {
+    labels.push(wins + k);
+    data.push(choose(remaining, k) * Math.pow(WIN_PROB, k) * Math.pow(1 - WIN_PROB, remaining - k) * 100);
+  }
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = data;
+  chart.update();
+}
+
 function choose(n, k) {
   let result = 1;
   for (let i = 1; i <= k; i++) {
@@ -28,6 +44,7 @@ function update() {
     chanceOutput.value = "100%";
     return;
   }
+  updateChart(wins, remaining);
   if (needed > remaining) {
     chanceOutput.value = "0%";
     return;
