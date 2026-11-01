@@ -11,7 +11,8 @@ const chart = new Chart(document.getElementById("chart"), {
   data: {
     labels: [],
     datasets: [{ label: "Chance of finishing with N wins (%)", data: [] }]
-  }
+  },
+  options: { maintainAspectRatio: false }
 });
 
 function choose(n, k) {
