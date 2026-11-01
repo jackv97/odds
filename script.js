@@ -43,3 +43,7 @@ function update() {
 winsInput.addEventListener("input", update);
 lossesInput.addEventListener("input", update);
 update();
+
+[winsInput, lossesInput].forEach(input => {
+  input.addEventListener("focus", () => input.select());
+});
