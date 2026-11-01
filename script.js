@@ -8,8 +8,19 @@ const chanceOutput = document.getElementById("chance");
 
 const chart = new Chart(document.getElementById("chart"), {
   type: "bar",
-  data: { labels: [], datasets: [{ label: "Chance of finishing with N wins (%)", data: [] }] }
+  data: {
+    labels: [],
+    datasets: [{ label: "Chance of finishing with N wins (%)", data: [] }]
+  }
 });
+
+function choose(n, k) {
+  let result = 1;
+  for (let i = 1; i <= k; i++) {
+    result = result * (n - k + i) / i;
+  }
+  return result;
+}
 
 function updateChart(wins, remaining) {
   const labels = [], data = [];
@@ -19,15 +30,8 @@ function updateChart(wins, remaining) {
   }
   chart.data.labels = labels;
   chart.data.datasets[0].data = data;
+  chart.data.datasets[0].backgroundColor = labels.map(w => w >= TARGET_WINS ? "#2e8b57" : "#b0b0b0");
   chart.update();
-}
-
-function choose(n, k) {
-  let result = 1;
-  for (let i = 1; i <= k; i++) {
-    result = result * (n - k + i) / i;
-  }
-  return result;
 }
 
 function update() {
@@ -40,15 +44,18 @@ function update() {
     chanceOutput.value = "Too many games";
     return;
   }
+
   updateChart(wins, remaining);
-  if (needed > remaining) {
-    chanceOutput.value = "0%";
-    return;
-  }
+
   if (needed <= 0) {
     chanceOutput.value = "100%";
     return;
   }
+  if (needed > remaining) {
+    chanceOutput.value = "0%";
+    return;
+  }
+
   let chance = 0;
   for (let k = needed; k <= remaining; k++) {
     chance += choose(remaining, k) * Math.pow(WIN_PROB, k) * Math.pow(1 - WIN_PROB, remaining - k);
