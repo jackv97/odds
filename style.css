@@ -1,6 +1,7 @@
 html, body {
-  height: 100%;
   margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -9,8 +10,6 @@ body {
   margin: 0 auto;
   padding: 16px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
 label {
@@ -30,8 +29,6 @@ input {
 }
 
 .chart-box {
-  flex: 1;
-  min-height: 0;
   position: relative;
-  margin-top: 16px;
+  height: calc(100vh - 190px);
 }
