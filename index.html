@@ -2,14 +2,16 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Win Chance</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <label>Wins: <input type="number" id="wins" min="0" value="0"></label>
-  <label>Losses: <input type="number" id="losses" min="0" value="0"></label>
+  <label>Wins: <input type="text" inputmode="numeric" id="wins" value="0"></label>
+  <label>Losses: <input type="text" inputmode="numeric" id="losses" value="0"></label>
   <label>Chance of getting 7 wins: <input type="text" id="chance" readonly></label>
-  <canvas id="chart"></canvas>
+  <div class="chart-box"><canvas id="chart"></canvas></div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
