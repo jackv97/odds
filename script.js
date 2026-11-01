@@ -45,6 +45,6 @@ lossesInput.addEventListener("input", update);
 update();
 
 [winsInput, lossesInput].forEach(input => {
-  input.addEventListener("focus", () => input.select());
+  input.addEventListener("focus", () => setTimeout(() => input.select(), 0));
   input.addEventListener("mouseup", e => e.preventDefault());
 });
