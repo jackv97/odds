@@ -6,13 +6,41 @@ const winsInput = document.getElementById("wins");
 const lossesInput = document.getElementById("losses");
 const chanceOutput = document.getElementById("chance");
 
+const stemsPlugin = {
+  id: "stems",
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { y } } = chart;
+    const meta = chart.getDatasetMeta(0);
+    ctx.save();
+    ctx.lineWidth = 2;
+    meta.data.forEach(point => {
+      ctx.strokeStyle = point.options.backgroundColor;
+      ctx.beginPath();
+      ctx.moveTo(point.x, y.getPixelForValue(0));
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
+    });
+    ctx.restore();
+  }
+};
+
 const chart = new Chart(document.getElementById("chart"), {
-  type: "bar",
+  type: "line",
   data: {
     labels: [],
-    datasets: [{ label: "Chance of finishing with N wins (%)", data: [] }]
+    datasets: [{
+      label: "Chance of finishing with N wins (%)",
+      data: [],
+      showLine: false,
+      pointRadius: 6,
+      pointHoverRadius: 8
+    }]
   },
-  options: { maintainAspectRatio: false }
+  options: {
+    maintainAspectRatio: false,
+    scales: { y: { beginAtZero: true } }
+  },
+  plugins: [stemsPlugin]
 });
 
 function choose(n, k) {
@@ -29,9 +57,11 @@ function updateChart(wins, remaining) {
     labels.push(wins + k);
     data.push(choose(remaining, k) * Math.pow(WIN_PROB, k) * Math.pow(1 - WIN_PROB, remaining - k) * 100);
   }
+  const colors = labels.map(w => w >= TARGET_WINS ? "#2e8b57" : "#888");
   chart.data.labels = labels;
   chart.data.datasets[0].data = data;
-  chart.data.datasets[0].backgroundColor = labels.map(w => w >= TARGET_WINS ? "#2e8b57" : "#b0b0b0");
+  chart.data.datasets[0].backgroundColor = colors;
+  chart.data.datasets[0].borderColor = colors;
   chart.update();
 }
 
