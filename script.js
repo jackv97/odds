@@ -52,18 +52,18 @@ function update() {
   const needed = TARGET_WINS - wins;
 
   if (remaining < 0) {
-    chanceOutput.value = "Too many games";
+    chanceOutput.textContent = "Too many games";
     return;
   }
 
   updateChart(wins, remaining);
 
   if (needed <= 0) {
-    chanceOutput.value = "100%";
+    chanceOutput.textContent = "100%";
     return;
   }
   if (needed > remaining) {
-    chanceOutput.value = "0%";
+    chanceOutput.textContent = "0%";
     return;
   }
 
@@ -71,7 +71,7 @@ function update() {
   for (let k = needed; k <= remaining; k++) {
     chance += choose(remaining, k) * Math.pow(WIN_PROB, k) * Math.pow(1 - WIN_PROB, remaining - k);
   }
-  chanceOutput.value = (chance * 100).toFixed(1) + "%";
+  chanceOutput.textContent = (chance * 100).toFixed(1) + "%";
 }
 
 winsInput.addEventListener("input", update);
